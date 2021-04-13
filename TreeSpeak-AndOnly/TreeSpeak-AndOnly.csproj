@@ -10,8 +10,8 @@
     <TemplateGuid>{e0dc9abc-7303-488b-8af1-61e341bd2a32}</TemplateGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TreeSpeak_AndOnly</RootNamespace>
-    <AssemblyName>TreeSpeak-AndOnly</AssemblyName>
+    <RootNamespace>TreeSpeak_V2</RootNamespace>
+    <AssemblyName>TreeSpeak_V2</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <Deterministic>True</Deterministic>
     <AndroidApplication>True</AndroidApplication>
@@ -74,6 +74,7 @@
     <Compile Include="SQLiteHelper.cs" />
     <Compile Include="SurveyHelper.cs" />
     <Compile Include="SurveyLoader.cs" />
+    <Compile Include="SurveyTables.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -131,8 +132,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\tree_speak_logo.png" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\SurveyTables\" />
+    <AndroidResource Include="Resources\SurveyTables\bs5837_table.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\SurveyTables\general_survey_table.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

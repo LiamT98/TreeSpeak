@@ -4,4 +4,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Log</string>
     <string name="dashboad_uploadsurvey">Upload a .csv tree survey</string>
+    <string name="dashboard_recordvoice">Record</string>
+  <string name="message_speaknow">Speak now</string>
 </resources>

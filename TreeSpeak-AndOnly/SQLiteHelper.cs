@@ -14,7 +14,7 @@ using Android.Widget;
 
 using Mono.Data.Sqlite;
 
-namespace TreeSpeak_AndOnly
+namespace TreeSpeak_V2
 {
     public static class SQLiteHelper
     {

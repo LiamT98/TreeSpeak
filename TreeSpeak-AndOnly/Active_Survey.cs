@@ -16,7 +16,7 @@ using Android.Widget;
 using SQLite;
 
 
-namespace TreeSpeak_AndOnly
+namespace TreeSpeak_V2
 {
      static class Active_Survey
     {
