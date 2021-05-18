@@ -67,14 +67,15 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSystem.cs" />
+    <Compile Include="InterpretationInstance.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Active_Survey.cs" />
     <Compile Include="SQLiteHelper.cs" />
     <Compile Include="SurveyHelper.cs" />
-    <Compile Include="SurveyLoader.cs" />
     <Compile Include="SurveyTables.cs" />
+    <Compile Include="Toaster.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -121,23 +122,43 @@
     <PackageReference Include="Mono.Data.Sqlite.Portable">
       <Version>1.0.3.5</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.Permissions">
+      <Version>6.0.1</Version>
+    </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
       <Version>1.7.335</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
+    <PackageReference Include="Xamarin.Android.Support.v4">
+      <Version>28.0.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\tree_speak_logo.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <AndroidResource Include="Resources\SurveyTables\bs5837_table.txt" />
+    <AndroidAsset Include="Assets\bs5837_table.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\SurveyTables\general_survey_table.txt" />
+    <AndroidAsset Include="Assets\general_survey_table.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ListItem.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\DetailedListItem.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\DetailedListView.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

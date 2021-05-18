@@ -17,7 +17,7 @@
         android:layout_above="@id/navigation"
         android:visibility="invisible"
         android:id="@+id/frame_home">
-        
+
         <ImageView
             android:src="@drawable/tree_speak_logo"
             android:layout_width="match_parent"
@@ -33,78 +33,309 @@
         
         android:id="@+id/frame_dashboard">
         <RelativeLayout
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="100px"
-                 android:layout_margin="25px"
-                 android:fontFamily="sans-serif"
-                 android:text="@string/dashboad_uploadsurvey"
-                 android:textSize="10pt"
-                 android:textAlignment="center"
-                 android:id="@+id/dashboard_step1_text"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25px"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif"
+                android:textSize="8pt"
+                android:text="@string/dashboad_uploadsurvey"
+                android:textAlignment="center"
+                android:id="@+id/dashboard_step1_text"/>
 
             <Button
-                 android:layout_width="800px"
-                 android:layout_height="200px"
-                 android:layout_below="@id/dashboard_step1_text"
-                 android:layout_centerHorizontal="true"
-                 android:text="Browse"
-                 android:id="@+id/dashboard_uploadBtn"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dashboard_step1_text"
+                android:layout_centerHorizontal="true"
+                android:text="Browse"
+                android:id="@+id/dashboard_uploadBtn"/>
             <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="100px"
-                 android:layout_margin="25px"
-                 android:layout_below="@id/dashboard_uploadBtn"
-                 android:fontFamily="sans-serif"
-                 android:text=""
-                 android:textSize="8pt"  
-                 android:textAlignment="center"
-                 android:id="@+id/dashboard_file_status"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25px"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/dashboard_uploadBtn"
+                android:fontFamily="sans-serif"
+                android:text=""
+                android:textSize="8pt"
+                android:textAlignment="center"
+                android:id="@+id/dashboard_file_status"/>
             <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="100px"
-                 android:layout_margin="25px"
-                 android:layout_below="@id/dashboard_file_status"
-                 android:fontFamily="sans-serif"
-                 android:text="@string/dashboard_recordvoice"
-                 android:textSize="10pt"
-                 android:textAlignment="center"
-                 android:id="@+id/dashboard_step2_text"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25px"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/dashboard_file_status"
+                android:fontFamily="sans-serif"
+                android:textSize="8pt"
+                android:text="@string/dashboard_recordvoice"
+                android:textAlignment="center"
+                android:id="@+id/dashboard_step2_text"/>
             <Button
-                 android:layout_width="800px"
-                 android:layout_height="200px"
-                 android:layout_below="@id/dashboard_step2_text"
-                 android:layout_centerHorizontal="true"
-                 android:text="Start"
-                 android:id="@+id/dashboard_recordBtn"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dashboard_step2_text"
+                android:layout_centerHorizontal="true"
+                android:text="Start"
+                android:id="@+id/dashboard_recordBtn"/>
             <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="100px"
-                 android:layout_margin="25px"
-                 android:layout_below="@id/dashboard_recordBtn"
-                 android:fontFamily="sans-serif"
-                 android:text=""
-                 android:textSize="8pt"  
-                 android:textAlignment="center"
-                 android:id="@+id/dashboard_record_status"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25px"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/dashboard_recordBtn"
+                android:fontFamily="sans-serif"
+                android:text=""
+                android:textSize="8pt"
+                android:textAlignment="center"
+                android:id="@+id/dashboard_record_status"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dashboard_record_status"
+                android:id="@+id/dashboard_current_query"
+                android:background="#ffdedede">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Query in Progress"
+                    android:textSize="8pt"
+                    android:textAlignment="center"
+                    android:id="@+id/current_q_title"/>
+
+                <TextView
+                    android:layout_width="500px"
+                    android:layout_height="150px"
+                    android:layout_below="@id/current_q_title"
+                    android:textSize="8pt"
+                    android:text="Tree ID:"
+                    android:id="@+id/current_q_treeid"/>
+                <TextView
+                    android:layout_width="500px"
+                    android:layout_height="150px"
+                    android:layout_below="@id/current_q_treeid"
+                    android:textSize="8pt"
+                    android:text="Property edited: "
+                    android:id="@+id/current_q_property"/>
+                <TextView
+                    android:layout_width="500px"
+                    android:layout_height="150px"
+                    android:layout_below="@id/current_q_property"
+                    android:textSize="8pt"
+                    android:text="Old value: "
+                    android:id="@+id/current_q_oldval"/>
+                <TextView
+                    android:layout_width="500px"
+                    android:layout_height="150px"
+                    android:layout_below="@id/current_q_oldval"
+                    android:textSize="8pt"
+                    android:text="New value:"
+                    android:id="@+id/current_q_newval"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="150px"
+                    android:layout_toRightOf="@id/current_q_treeid"
+                    android:layout_below="@id/current_q_title"
+                    android:id="@+id/current_q_treeid_edittext"
+                    android:inputType="text" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="150px"
+                    android:layout_toRightOf="@id/current_q_treeid"
+                    android:layout_below="@id/current_q_treeid"
+                    android:id="@+id/current_q_property_edittext"
+                    android:inputType="text" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="150px"
+                    android:layout_toRightOf="@id/current_q_treeid"
+                    android:layout_below="@id/current_q_property"
+                    android:id="@+id/current_q_oldval_edittext"
+                    android:inputType="text" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="150px"
+                    android:layout_toRightOf="@id/current_q_treeid"
+                    android:layout_below="@id/current_q_oldval"
+                    android:id="@+id/current_q_newval_edittext"
+                    android:inputType="text" />
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/dashboard_current_query"
+                android:text="Export"
+                android:id="@+id/button_export"/>
         </RelativeLayout>
     </FrameLayout>
 
     <!-- LOG FRAME-->
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/navigation"
         android:visibility="invisible"
+        android:layout_above="@id/navigation"
         android:id="@+id/frame_log">
+    
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewflipper_logview">
+        
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            
+                <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/log_listview"
+                android:divider="#ff444444"
+                android:dividerHeight="1dp">
+            </ListView>
+            
+            </RelativeLayout>
 
-        <ListView
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-            android:id="@+id/log_listview"/>
-    </FrameLayout>
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/detailed_listview"/>
+
+                    <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/navigation"
+                    android:layout_below="@id/detailed_listview"
+                    android:text="Execute All"
+                    android:id="@+id/button_exe_all"/>
+    
+
+                
+           
+
+            </RelativeLayout>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.CardView
+                    android:minWidth="25px"
+                    android:minHeight="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="25px"
+                    android:id="@+id/cardView2">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+    
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                            android:layout_marginBottom="25dp"
+                        android:text="Survey Name"
+                        android:id="@+id/query_detail_name"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="150dp"
+                        android:layout_below="@id/query_detail_name"
+                        android:text="Query Type"
+                        android:id="@+id/query_detail_querytype"/>
+
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="35dp"
+                        android:layout_below="@id/query_detail_name"
+                        android:layout_toRightOf="@id/query_detail_querytype"
+                        android:text="$type_val"
+                        android:id="@+id/query_detail_querytype_val"/>
+
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="150dp"
+                        android:layout_below="@id/query_detail_querytype_val"
+                        android:text="Property"
+                        android:id="@+id/query_detail_property"/>
+
+                        <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/query_detail_property"
+                        android:layout_below="@id/query_detail_querytype_val"
+                        android:text="$prop_val"
+                        android:id="@+id/query_detail_property_val"/>
+
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="150dp"
+                        android:layout_below="@id/query_detail_property_val"
+                        android:text="Old Value"
+                        android:id="@+id/query_detail_oldval"/>
+
+                        <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/query_detail_property_val"
+                        android:layout_toRightOf="@id/query_detail_oldval"
+                        android:text="$old_val_val"
+                        android:id="@+id/query_detail_oldval_val"/>
+
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="150dp"
+                        android:layout_below="@id/query_detail_oldval_val"
+                        android:text="New Val"
+                        android:id="@+id/query_detail_newval"/>
+
+                        <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                
+                        android:layout_below="@id/query_detail_oldval_val"
+                        android:layout_toRightOf="@id/query_detail_newval"
+                        android:text="$new_val_val"
+                        android:id="@+id/query_detail_newval_val"/>
+
+                        <Button
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="25dp"
+                            android:layout_below="@id/query_detail_newval_val"
+                            android:text="Save"
+                            android:id="@+id/query_detail_save_button"/>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+        
+        
+        </ViewFlipper>
+    
+    </RelativeLayout>
 
 
     <!-- BOTTOM NAV BAR-->
@@ -117,8 +348,5 @@
         android:background="?android:attr/windowBackground"
         android:layout_alignParentBottom="true"
         app:menu="@menu/navigation" />
-    
-
-
 
 </RelativeLayout>
