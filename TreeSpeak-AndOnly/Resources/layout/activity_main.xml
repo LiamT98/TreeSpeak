@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/navigation"
-        android:visibility="invisible"
+        
         android:id="@+id/frame_home">
 
         <ImageView
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/navigation"
-        
+        android:visibility="invisible"
         android:id="@+id/frame_dashboard">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -67,7 +67,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="25px"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/dashboard_file_status"
                 android:fontFamily="sans-serif"
@@ -180,7 +179,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        
         android:layout_above="@id/navigation"
         android:id="@+id/frame_log">
     

@@ -126,6 +126,36 @@ namespace TreeSpeak_V2
             log_listview.ItemClick += Log_listview_ItemClick;
 
 
+            InterpretationInstance instance;
+            NLQ query;
+            string[] queryTypes = { "SESSION_START", "GET_TREE", "EDIT_PROPERTY", "SESION_END"};
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                instance = new InterpretationInstance();
+                instance.survey_name = "BS5837 Test Survey";
+                instance.tree_id = "T" + rand.Next(1, 100).ToString();
+                instance.session_datetime = DateTime.Now;
+
+                int count = 0;
+                for (int j = 0; j < 4; j++)
+                {
+                    query = new NLQ();
+                    query.tree_id = instance.tree_id;
+                    query.query_type = queryTypes[count];
+                    query.property_actioned = "Maturity";
+                    query.property_val_old = "Young";
+                    query.property_val_new = "Mature";
+
+                    instance.session_queries.Add(query);
+                    count++;
+                }
+                
+
+                sessions.Add(instance);
+            }
+
+
             listview_detailed_log = FindViewById<ListView>(Resource.Id.detailed_listview);
             listview_detailed_log.ItemClick += Listview_detailed_log_ItemClick;
             button_execute_all = FindViewById<Button>(Resource.Id.button_exe_all);
@@ -330,8 +360,6 @@ namespace TreeSpeak_V2
 
         private void Listview_detailed_log_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            
-
             PopulateDetailedItemCard(e.Position);
             query_postion = e.Position;
 
@@ -497,14 +525,11 @@ namespace TreeSpeak_V2
                 return view;
             }
 
-
             public class ViewHolder : Java.Lang.Object
             {
                 public TextView session_name { get; set; }
                 public TextView session_date { get; set; }
-            }
-
-            
+            } 
         }
 
         public class NLQListAdapter : BaseAdapter<NLQ>
@@ -550,11 +575,6 @@ namespace TreeSpeak_V2
                 holder.query_title.Text = queries[position].tree_id;
                 holder.query_type.Text = queries[position].query_type;
 
-                //holder.query_property.Text = queries[position].property_actioned;
-                //holder.query_oldval.Text = queries[position].property_val_old;
-                //holder.query_newval.Text = queries[position].property_val_new;
-
-
                 return view;
             }
 
@@ -562,10 +582,6 @@ namespace TreeSpeak_V2
             {
                 public TextView query_title { get; set; }
                 public TextView query_type { get; set; }
-
-                //public EditText query_property { get; set; }
-                //public EditText query_oldval { get; set; }
-                //public EditText query_newval { get; set; }
             }
         }
 

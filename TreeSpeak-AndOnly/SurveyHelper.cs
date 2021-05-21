@@ -74,8 +74,6 @@ namespace TreeSpeak_V2
 
         public static void LoadSurveyFromCSV(string fileName, Stream fileData, out string message)
         {
-
-
             ClearActiveSurvey();
 
             DataTable temp_datatable = new DataTable();
@@ -117,27 +115,6 @@ namespace TreeSpeak_V2
                 
                 SurveyTables tables = new SurveyTables();
                 tables.PopulateTable(ActiveSurvey.survey_type);
-
-
-                // print table values
-                //for (int i = 0; i < values_tables.Count(); i++)
-                //{
-                //    Debug.WriteLine(values_tables[i].name);
-
-                    
-                //    for (int j = 0; j < values_tables[i].categories.Count(); j++)
-                //    {
-                //        Debug.WriteLine(values_tables[i].categories[j].category_name);
-
-                //        for (int k = 0; k < values_tables[i].categories[j].items.Count(); k++)
-                //        {
-                //            Debug.WriteLine(values_tables[i].categories[j].items[k]);
-                //        }
-                //    }
-                //    Debug.WriteLine("");
-                //    Debug.WriteLine("");
-                //}
-
 
                 message = "Survey successfully loaded";
             }

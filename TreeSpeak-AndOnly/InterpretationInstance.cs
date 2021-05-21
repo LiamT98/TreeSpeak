@@ -34,7 +34,6 @@ namespace TreeSpeak_V2
 
         public string tree_id { get; set; }
 
-
         public List<NLQ> session_queries = new List<NLQ>();
 
        
@@ -99,22 +98,15 @@ namespace TreeSpeak_V2
 
         private SessionDirective GetSessionDirective(string input)
         {
-            //if (!have_tree_id)
-            //    return SessionDirective.START_NEW_SESSION;
-            //else if (input.ToLower() == "end session" && have_tree_id)
-            //    return SessionDirective.END_SESSION;
-            //else
-            //    return SessionDirective.EDIT_PROPERTY;
-
-            if (input.ToLower().StartsWith("Add"))
+            if (input.ToLower().StartsWith("add"))
             {
                 return SessionDirective.ADD_PROPERTY;
             }
-            else if (input.ToLower().StartsWith("Edit"))
+            else if (input.ToLower().StartsWith("edit"))
             {
                 return SessionDirective.EDIT_PROPERTY;
             }
-            else if (input.ToLower().StartsWith("Delete"))
+            else if (input.ToLower().StartsWith("delete"))
             {
                 return SessionDirective.DELETE_RECORD;
             }
@@ -124,7 +116,6 @@ namespace TreeSpeak_V2
             }
             else
                 return SessionDirective.NULL_Q;
-
         }
 
         #region GET TREE ID/SIGNS START OF QUERY SESSION
@@ -161,12 +152,6 @@ namespace TreeSpeak_V2
 
             if (!have_tree_id)
             {
-                //input = SanitizeInput(input, SanitizeMode.TREE_ID, out object output);
-
-
-                //if (input.StartsWith("tree id"))
-                //    rtn_str = input.Split(" ")[2];
-
                 rtn_str = input.Split(' ')[0];
 
                 return rtn_str;

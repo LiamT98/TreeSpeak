@@ -52,19 +52,7 @@ namespace TreeSpeak_V2
 
             string populate_table_statement = $"INSERT INTO [{SurveyHelper.ActiveSurvey.survey_name}](";
 
-            string[] headers;
-            string[] headers_useable;
 
-            if (survey_type == SurveyHelper.TableType.GeneralSurvey)
-            {
-                headers = SurveyHelper.general_survey_headers;
-                headers_useable = SurveyHelper.general_survey_headers_useable;
-            }
-            else
-            {
-                headers = SurveyHelper.bs5837_survey_headers;
-                headers_useable = SurveyHelper.bs5837_survey_headers_useable;
-            }
 
             foreach (DataColumn col in SurveyHelper.ActiveSurvey.survey_datatable.Columns)
             {
@@ -79,6 +67,7 @@ namespace TreeSpeak_V2
             SqliteCommand command = new SqliteCommand(create_table_statement, connection);
 
             command.ExecuteNonQuery();
+
 
 
             populate_table_statement = populate_table_statement.TrimEnd(' ', ',');
@@ -104,51 +93,13 @@ namespace TreeSpeak_V2
                 }
 
                 transaction.Commit();
-
-
-                //populate_table_statement += ") VALUES ";
-
-                //string populate_table_values = "(";
-
-                //foreach (string str in headers_useable)
-                //{
-                //    populate_table_values += $"[:{str}], ";
-                //}
-
-                //populate_table_values += ")";
-
-
-                //populate_table_statement += populate_table_values;
-
-                //command.CommandText = populate_table_statement;
-
-                //foreach (DataRow dataRow in SurveyHelper.ActiveSurvey.survey_datatable.Rows)
-                //{
-                //    for (int i = 0; i < dataRow.ItemArray.Count(); i++)
-                //    {
-                //        command.Parameters.Add(headers_useable[i], DbType.String).Value = dataRow.ItemArray[i].ToString();
-                //    }
-
-                //    populate_command.ExecuteNonQuery();
-                //}
-
-                //transaction.Commit();
             }
-            
 
             connection.Close();
-
         }
 
-        public static bool CheckTableExistance(string table_name, int mode = 0)
+        public static bool CheckTableExistance(string table_name)
         {
-            switch (mode)
-            {
-                case 1: // called upon uploading a new survey and must remove appended date if needs be
-                    table_name = table_name.Split("-|-")[0];
-                    break;
-            }
-
             connection = new SqliteConnection(GetAppendedConnString());
             connection.Open();
 
