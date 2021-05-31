@@ -316,7 +316,9 @@ namespace TreeSpeak_V2
                         working_instance.ProcessSpeech(matches[0], out NLQ current_query);
 
                         // update the current query information display
-                        UpdateCurrentQuery(current_query);
+                        if (current_query != null)
+                            UpdateCurrentQuery(current_query);
+
                         session_listview_adapter.NotifyDataSetChanged();
 
                         // update the list instance
@@ -354,8 +356,14 @@ namespace TreeSpeak_V2
             x.query_type == SurveyHelper.QueryTypes.ADD_RECORD ||
             x.query_type == SurveyHelper.QueryTypes.DELETE_RECORD).ToList();
 
+            bool isSuccess = true;
             foreach (NLQ query in queries_to_execute)
-                SQLiteHelper.ExecuteNLQ(query);
+                isSuccess = SQLiteHelper.ExecuteNLQ(query);
+
+            if (isSuccess)
+                Toast.MakeText(Application.Context, $"All queries have executed successufully.", ToastLength.Long);
+            else if (!isSuccess)
+                Toast.MakeText(Application.Context, $"One or more queries have failed to execute.", ToastLength.Long);
         }
 
         private void Listview_detailed_log_ItemClick(object sender, AdapterView.ItemClickEventArgs e)

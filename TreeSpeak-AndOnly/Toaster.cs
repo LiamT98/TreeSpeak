@@ -12,16 +12,7 @@ using Android.Widget;
 
 namespace TreeSpeak_V2
 {
-    public static class Toaster
+    public interface Toaster
     {
-        static Context context = Application.Context;
-
-        // Create toast with string message
-        public static void MakeToast(string message, ToastLength toast_length)
-        {
-            Toast.MakeText(context, message, toast_length);
-        }
-
-        // Add more methods to handle messages in different date types.
     }
 }

@@ -46,6 +46,18 @@ namespace TreeSpeak_V2
 
                     break;
                 case SessionDirective.EDIT_PROPERTY:
+                    input = input.ToLower();
+                    input = input.Replace("edit", "");
+                    input = input.TrimStart(' ');
+
+                    EditProperty(input);
+                    break;
+
+                case SessionDirective.DELETE_RECORD:
+
+                    break;
+
+                case SessionDirective.START_NEW_SESSION:
                     NLQ start_query;
                     if (!have_tree_id)
                     {
@@ -55,18 +67,7 @@ namespace TreeSpeak_V2
                         session_queries.Add(start_query);
 
                         SetActiveTree(input.Split(' ')[1]);
-
-                        current_query = session_queries.Last();
-                        return;
                     }
-
-                    input = input.ToLower();
-
-                    EditProperty(input);
-                    break;
-
-                case SessionDirective.DELETE_RECORD:
-
                     break;
 
                 case SessionDirective.END_SESSION:
@@ -79,21 +80,16 @@ namespace TreeSpeak_V2
                     session_isOpen = false;
                     break;
 
+                default:
                 case SessionDirective.NULL_Q:
-                    current_query = session_queries.Last();
-                    return;
-
-                    //case SessionDirective.START_NEW_SESSION:
-                    //    // add NLQ to mark the start of a session
-                    //    NLQ start_query = new NLQ();
-                    //    start_query.query_type = SurveyHelper.QueryTypes.SESSION_START;
-                    //    session_queries.Add(start_query);
-
-                    //    SetActiveTree(input);
-                    //    break;
+                    current_query = null;
+                    break;
             }
 
-            current_query = session_queries.Last();
+            if (session_queries.Count() > 0)
+                current_query = session_queries.Last();
+            else
+                current_query = null;
         }
 
         private SessionDirective GetSessionDirective(string input)
@@ -109,6 +105,10 @@ namespace TreeSpeak_V2
             else if (input.ToLower().StartsWith("delete"))
             {
                 return SessionDirective.DELETE_RECORD;
+            }
+            else if (input.ToLower().StartsWith("start"))
+            {
+                return SessionDirective.START_NEW_SESSION;
             }
             else if (input.ToLower() == "end session")
             {
@@ -134,13 +134,13 @@ namespace TreeSpeak_V2
             // if no value can be validated as a potential tree id, return
             if (!have_tree_id)
             {
-                Toaster.MakeToast($"Input is invalid.\nValue: '{input}'", ToastLength.Long);
+                Toast.MakeText(Application.Context, $"Input is invalid.\nValue: '{input}'", ToastLength.Long);
                 return;
             }
             // if a valid tree id does not return any table results, return
             if (!SQLiteHelper.CheckTreeExists(tree_id))
             {
-                Toaster.MakeToast($"Cannot find tree record associated with ID: '{input}'", ToastLength.Long);
+                Toast.MakeText(Application.Context, $"Cannot find tree record associated with ID: '{input}'", ToastLength.Long);
                 return;
             }
 
@@ -172,7 +172,7 @@ namespace TreeSpeak_V2
 
             if (string.IsNullOrEmpty(property_to_edit))
             {
-                // make toast
+                Toast.MakeText(Application.Context, $"Cannot find property {input.Split(' ')[0]}", ToastLength.Long);
                 return;
             }
 
@@ -207,7 +207,7 @@ namespace TreeSpeak_V2
             else
             {
                 for (int i = 0; i < SurveyHelper.bs5837_survey_headers_useable.Count(); i++)
-                    if (input.Contains(SurveyHelper.general_survey_headers_useable[i].ToLower()))
+                    if (input.Contains(SurveyHelper.bs5837_survey_headers_useable[i].ToLower()))
                         return SurveyHelper.bs5837_survey_headers[i];
             }
 

@@ -37,13 +37,13 @@ namespace TreeSpeak_V2
         }
 
 
-        public static void CreateSurveyTable(string table_name, SurveyHelper.TableType survey_type)
+        public static bool CreateSurveyTable(string table_name, SurveyHelper.TableType survey_type)
         {
             if (!File.Exists(db_path))
                 CreateApplicationDatabase();
 
             if (CheckTableExistance(table_name))
-                return; // A table of the same name already exists
+                return false; // A table of the same name already exists
 
             connection = new SqliteConnection(GetAppendedConnString());
             connection.Open();
@@ -70,8 +70,19 @@ namespace TreeSpeak_V2
 
 
 
+
             populate_table_statement = populate_table_statement.TrimEnd(' ', ',');
+
             populate_table_statement += ") VALUES (";
+
+
+            //populate_table_statement = populate_table_statement.TrimEnd(' ', ',');
+
+            //populate_table_statement += ");";
+
+
+            
+            //populate_table_statement += ") VALUES (";
 
             using (var transaction = connection.BeginTransaction())
             using (var populate_command = connection.CreateCommand())
@@ -79,15 +90,18 @@ namespace TreeSpeak_V2
 
                 foreach (DataRow dataRow in SurveyHelper.ActiveSurvey.survey_datatable.Rows)
                 {
+                    string statement_values = null;
+
                     foreach (object obj in dataRow.ItemArray)
                     {
-                        populate_table_statement += $"'{obj}', ";
+                        //populate_table_statement += $"'{obj}', ";
+                        statement_values += $"'{obj}', ";
                     }
 
-                    populate_table_statement = populate_table_statement.TrimEnd(',', ' ');
-                    populate_table_statement += ");";
+                    statement_values = statement_values.TrimEnd(' ', ',');
+                    statement_values += ");";
 
-                    populate_command.CommandText = populate_table_statement;
+                    populate_command.CommandText = populate_table_statement + statement_values;
 
                     populate_command.ExecuteNonQuery();
                 }
@@ -96,6 +110,7 @@ namespace TreeSpeak_V2
             }
 
             connection.Close();
+            return true;
         }
 
         public static bool CheckTableExistance(string table_name)
@@ -218,85 +233,119 @@ namespace TreeSpeak_V2
 
         //}
 
-        public static void ExecuteNLQ(NLQ query)
+        public static bool ExecuteNLQ(NLQ query)
         {
+            bool isSuccess = true;
+
             switch (query.query_type)
             {
                 case SurveyHelper.QueryTypes.ADD_RECORD:
-                    ExecuteAddRecord(query);
+                    isSuccess = ExecuteAddRecord(query);
                     break;
                 case SurveyHelper.QueryTypes.EDIT_RECORD:
-                    ExecuteEditRecord(query);
+                    isSuccess = ExecuteEditRecord(query);
                     break;
                 case SurveyHelper.QueryTypes.DELETE_RECORD:
-                    ExecuteDeleteRecord(query);
+                    isSuccess = ExecuteDeleteRecord(query);
                     break;
             }
 
+            return isSuccess;
         }
 
-        private static void ExecuteAddRecord(NLQ query)
+        private static bool ExecuteAddRecord(NLQ query)
         {
             if (!CheckTableExistance(SurveyHelper.ActiveSurvey.survey_name))
-                return;
+                return false;
             if (!CheckTreeExists(query.tree_id))
-                return;
+                return false;
 
-            connection = new SqliteConnection(GetAppendedConnString());
-            connection.Open();
-
-            using (SqliteCommand command = new SqliteCommand(connection))
+            try
             {
-                /*
-                To implement adding a new record efficiently it might be a good idea to design
-                another Speech Processing segment that's optimised for stating a new TreeID
-                and then subsequently recording a list of parameters that are then added to a list in 
-                the NLQ class.
-                The Add query can then be contained within one NLQ instance where the parameter list is 
-                iterated through when adding paramenters to a prepared INSERT statement.
-                */
+
+                connection = new SqliteConnection(GetAppendedConnString());
+                connection.Open();
+
+
+                using (SqliteCommand command = new SqliteCommand(connection))
+                {
+                    /*
+                    To implement adding a new record efficiently it might be a good idea to design
+                    another Speech Processing segment that's optimised for stating a new TreeID
+                    and then subsequently recording a list of parameters that are then added to a list in 
+                    the NLQ class.
+                    The Add query can then be contained within one NLQ instance where the parameter list is 
+                    iterated through when adding paramenters to a prepared INSERT statement.
+                    */
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, $"Add query for {query.tree_id} has failed.", ToastLength.Long);
+                return false;
             }
         }
-        private static void ExecuteEditRecord(NLQ query)
+        private static bool ExecuteEditRecord(NLQ query)
         {
             if (!CheckTableExistance(SurveyHelper.ActiveSurvey.survey_name))
-                return;
+                return false;
             if (!CheckTreeExists(query.tree_id))
-                return;
+                return false;
 
-            connection = new SqliteConnection(GetAppendedConnString());
-            connection.Open();
-
-            using (SqliteCommand command = new SqliteCommand(connection))
+            try
             {
-                command.CommandText = $"UPDATE [{SurveyHelper.ActiveSurvey.survey_name}] SET [{query.property_actioned}] = :propval WHERE [Tree ID] = :treeid;";
-                command.Parameters.Add("propval", DbType.String).Value = query.property_val_new;
-                command.Parameters.Add("treeid", DbType.String).Value = query.tree_id;
 
-                command.ExecuteNonQuery();
+                connection = new SqliteConnection(GetAppendedConnString());
+                connection.Open();
+
+                using (SqliteCommand command = new SqliteCommand(connection))
+                {
+                    command.CommandText = $"UPDATE [{SurveyHelper.ActiveSurvey.survey_name}] SET [{query.property_actioned}] = :propval WHERE [Tree ID] = :treeid;";
+                    command.Parameters.Add("propval", DbType.String).Value = query.property_val_new;
+                    command.Parameters.Add("treeid", DbType.String).Value = query.tree_id;
+
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+                return true;
             }
-
-            connection.Close();
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, $"Edit query for {query.tree_id} has failed.", ToastLength.Long);
+                return false;
+            }
         }
-        private static void ExecuteDeleteRecord(NLQ query)
+        private static bool ExecuteDeleteRecord(NLQ query)
         {
             if (!CheckTableExistance(SurveyHelper.ActiveSurvey.survey_name))
-                return;
+                return false;
             if (!CheckTreeExists(query.tree_id))
-                return;
+                return false;
 
-            connection = new SqliteConnection(GetAppendedConnString());
-            connection.Open();
-
-            using (SqliteCommand command = new SqliteCommand(connection))
+            try
             {
-                command.CommandText = $"DELETE FROM [{SurveyHelper.ActiveSurvey.survey_name}] WHERE [Tree ID] = :treeid";
-                command.Parameters.Add("treeid", DbType.String).Value = query.tree_id;
 
-                command.ExecuteNonQuery();
+                connection = new SqliteConnection(GetAppendedConnString());
+                connection.Open();
+
+                using (SqliteCommand command = new SqliteCommand(connection))
+                {
+                    command.CommandText = $"DELETE FROM [{SurveyHelper.ActiveSurvey.survey_name}] WHERE [Tree ID] = :treeid";
+                    command.Parameters.Add("treeid", DbType.String).Value = query.tree_id;
+
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+                return true;
             }
-
-            connection.Close();
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, $"Delete query for {query.tree_id} has failed.", ToastLength.Long);
+                return false;
+            }
         }
 
 

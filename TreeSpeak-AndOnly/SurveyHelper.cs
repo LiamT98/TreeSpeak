@@ -110,9 +110,13 @@ namespace TreeSpeak_V2
                 ActiveSurvey.survey_name = GetCopyFileName(fileName);
                 ActiveSurvey.survey_type = temp_datatable.Columns[2].ColumnName == "BS5837V111" ? TableType.BS5837 : TableType.GeneralSurvey;
                 ActiveSurvey.survey_datatable = temp_datatable; // warning, clone instead of assign?
-                
-                SQLiteHelper.CreateSurveyTable(ActiveSurvey.survey_name, ActiveSurvey.survey_type);
-                
+
+                if (!SQLiteHelper.CreateSurveyTable(ActiveSurvey.survey_name, ActiveSurvey.survey_type))
+                {
+                    message = "Error encountered while importing the survey";
+                    return;
+                }
+
                 SurveyTables tables = new SurveyTables();
                 tables.PopulateTable(ActiveSurvey.survey_type);
 
@@ -190,6 +194,7 @@ namespace TreeSpeak_V2
                     alert.SetButton2("Maybe later", (c, ev) =>
                     {
                         Toast.MakeText(Application.Context, "Permission denied for now.", ToastLength.Long);
+                        return;
                     });
                 }
 
@@ -207,36 +212,49 @@ namespace TreeSpeak_V2
 
             string state = Android.OS.Environment.GetExternalStorageState(Android.OS.Environment.ExternalStorageDirectory);
             if (state == Android.OS.Environment.MediaMounted)
+            {
                 Toast.MakeText(Application.Context, "Your external storage media is unavailable.", ToastLength.Long);
+                return;
+            }
 
 
             //string csvFileName = Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments).AbsolutePath, SurveyHelper.ActiveSurvey.survey_name) + ".csv";
 
-            var appDirectory = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "TreeSpeak");
-            Directory.CreateDirectory(appDirectory);
-
-            string csvFileName = Path.Combine(appDirectory, SurveyHelper.ActiveSurvey.survey_name) + ".csv";
-
-
-            if (!File.Exists(csvFileName))
+            try
             {
-                FileStream fs = new FileStream(csvFileName, FileMode.CreateNew);
-                fs.Close();
 
-                string csvHeaders;
-                if (ActiveSurvey.survey_type == TableType.GeneralSurvey)
-                    csvHeaders = string.Join(',', general_survey_headers);
-                else
-                    csvHeaders = string.Join(',', bs5837_survey_headers);
+                var appDirectory = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "TreeSpeak");
+                Directory.CreateDirectory(appDirectory);
 
-                using (FileStream fsWHT = new FileStream(csvFileName, FileMode.Append, FileAccess.Write))
-                using (StreamWriter swT = new StreamWriter(fsWHT))
+                string csvFileName = Path.Combine(appDirectory, SurveyHelper.ActiveSurvey.survey_name) + ".csv";
+
+
+                if (!File.Exists(csvFileName))
                 {
-                    swT.WriteLine(csvHeaders);
-                }
-            }
+                    FileStream fs = new FileStream(csvFileName, FileMode.CreateNew);
+                    fs.Close();
 
-            SQLiteHelper.ExportSurvey(csvFileName);
+                    string csvHeaders;
+                    if (ActiveSurvey.survey_type == TableType.GeneralSurvey)
+                        csvHeaders = string.Join(',', general_survey_headers);
+                    else
+                        csvHeaders = string.Join(',', bs5837_survey_headers);
+
+                    using (FileStream fsWHT = new FileStream(csvFileName, FileMode.Append, FileAccess.Write))
+                    using (StreamWriter swT = new StreamWriter(fsWHT))
+                    {
+                        swT.WriteLine(csvHeaders);
+                    }
+                }
+
+                SQLiteHelper.ExportSurvey(csvFileName);
+                Toast.MakeText(Application.Context, $"Export complete.\nPath: {csvFileName}", ToastLength.Long);
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, $"Export failed.\n{ex.Message}", ToastLength.Long);
+                return;
+            }
         }
     }
 }
